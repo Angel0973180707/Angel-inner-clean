@@ -2,7 +2,7 @@
  * 更新方法：改 CACHE_NAME 版本號（例如 angel-v6 -> angel-v7）
  */
 
-const CACHE_NAME = "angel-v9";
+const CACHE_NAME = "angel-v10";
 const ASSETS = [
   "./",
   "./index.html",
