@@ -19,17 +19,14 @@
       --bg2:#060c21;
       --card:rgba(255,255,255,.08);
       --card2:rgba(255,255,255,.06);
-      --line:rgba(255,255,255,.14);
       --text:rgba(255,255,255,.92);
       --muted:rgba(255,255,255,.68);
-      --soft:rgba(255,255,255,.10);
-      --accent:#6ea8ff;
-      --accent2:#8cf0ff;
-      --danger:#ff6b6b;
-      --ok:#4ee59a;
       --shadow:0 18px 50px rgba(0,0,0,.35);
       --r:22px;
       --max:980px;
+      --line:rgba(255,255,255,.12);
+      --accent:rgba(140,240,255,.28);
+      --accent2:rgba(110,168,255,.22);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -131,12 +128,12 @@
       border-radius:16px;
       padding:10px 12px;
       font-size:13px;
-      line-height:1;
+      line-height:1.2;
       display:inline-flex;
       align-items:center;
       gap:8px;
       cursor:pointer;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      transition: transform .12s ease, background .12s ease;
       user-select:none;
       -webkit-tap-highlight-color:transparent;
     }
@@ -167,7 +164,7 @@
     }
 
     .card{
-      background:linear-gradient(180deg, var(--card), var(--card2));
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.06));
       border:1px solid rgba(255,255,255,.12);
       border-radius:var(--r);
       box-shadow: var(--shadow);
@@ -183,15 +180,20 @@
       margin:0 0 14px;
       color:var(--muted);
       font-size:13px;
+      line-height:1.6;
+    }
+    .micro{
+      margin:8px 0 0;
+      color:rgba(255,255,255,.58);
+      font-size:12px;
       line-height:1.5;
     }
     .hr{
       height:1px;
-      background:rgba(255,255,255,.12);
+      background:var(--line);
       margin:14px 0;
     }
 
-    /* tabs */
     .tabs{
       display:flex; gap:8px; flex-wrap:wrap;
       margin:10px 0 12px;
@@ -209,11 +211,10 @@
     }
     .tab.active{
       color:var(--text);
-      background: linear-gradient(135deg, rgba(110,168,255,.22), rgba(140,240,255,.10));
-      border-color: rgba(140,240,255,.28);
+      background: linear-gradient(135deg, var(--accent2), rgba(140,240,255,.10));
+      border-color: var(--accent);
     }
 
-    /* 清理 */
     textarea{
       width:100%;
       min-height:140px;
@@ -224,7 +225,7 @@
       background:rgba(0,0,0,.18);
       color:var(--text);
       font-size:14px;
-      line-height:1.6;
+      line-height:1.7;
       outline:none;
     }
     textarea::placeholder{color:rgba(255,255,255,.45)}
@@ -237,9 +238,7 @@
       font-size:12.5px;
       line-height:1.5;
     }
-    .shake{
-      animation: shake .22s ease-in-out 0s 2;
-    }
+    .shake{animation: shake .22s ease-in-out 0s 2;}
     @keyframes shake{
       0%{transform:translateX(0)}
       25%{transform:translateX(-4px)}
@@ -248,11 +247,8 @@
       100%{transform:translateX(0)}
     }
 
-    /* 摧毀動畫：化為微光 */
-    .burn{
-      position:relative;
-      overflow:hidden;
-    }
+    /* 清理摧毀微光 */
+    .burn{position:relative; overflow:hidden;}
     .burn::after{
       content:"";
       position:absolute; inset:-10%;
@@ -265,9 +261,7 @@
       transform:scale(.98);
       pointer-events:none;
     }
-    .burning::after{
-      animation: burnGlow 900ms ease-in-out 0s 1 forwards;
-    }
+    .burning::after{animation: burnGlow 900ms ease-in-out 0s 1 forwards;}
     @keyframes burnGlow{
       0%{opacity:0; transform:scale(.98)}
       30%{opacity:1}
@@ -282,55 +276,27 @@
       gap:12px;
       padding:6px 0 2px;
     }
-    .circle-wrap{
-      width:250px;
-      height:250px;
-      border-radius:999px;
-      display:grid;
-      place-items:center;
-      position:relative;
-    }
+    .circle-wrap{width:250px;height:250px;border-radius:999px;display:grid;place-items:center;position:relative;}
     .circle{
-      width:210px;
-      height:210px;
-      border-radius:999px;
+      width:210px;height:210px;border-radius:999px;
       border:1px solid rgba(255,255,255,.18);
       background: radial-gradient(circle at 30% 25%, rgba(140,240,255,.20), rgba(0,0,0,.18) 62%),
                   radial-gradient(circle at 70% 70%, rgba(110,168,255,.16), transparent 55%);
       box-shadow: 0 22px 70px rgba(0,0,0,.35);
-      display:grid;
-      place-items:center;
+      display:grid;place-items:center;
       transform: scale(.92);
     }
-    .phase{
-      text-align:center;
-      padding:0 18px;
-    }
-    .phase .big{
-      font-size:18px;
-      letter-spacing:.08em;
-      margin:0;
-    }
-    .phase .small{
-      margin:8px 0 0;
-      font-size:12.5px;
-      color:var(--muted);
-    }
-    .pulse{
-      animation: pulse var(--dur, 16s) ease-in-out infinite;
-    }
+    .phase{text-align:center;padding:0 18px;}
+    .phase .big{font-size:18px;letter-spacing:.08em;margin:0;}
+    .phase .small{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+    .pulse{animation: pulse var(--dur, 16s) ease-in-out infinite;}
     @keyframes pulse{
       0%{transform:scale(.88)}
       25%{transform:scale(1.02)}
       50%{transform:scale(1.02)}
       100%{transform:scale(.88)}
     }
-
-    .controls{
-      display:flex; gap:10px; flex-wrap:wrap;
-      justify-content:center;
-      margin-top:2px;
-    }
+    .controls{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:2px;}
     .select{
       border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.06);
@@ -352,12 +318,7 @@
       font-size:14px;
       outline:none;
     }
-    .list{
-      margin:10px 0 0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .list{margin:10px 0 0; display:flex; flex-direction:column; gap:8px;}
     .item{
       padding:10px 12px;
       border-radius:16px;
@@ -368,65 +329,22 @@
       gap:10px;
       align-items:flex-start;
     }
-    .item .t{
-      font-size:13.5px;
-      line-height:1.5;
-      color:rgba(255,255,255,.88);
-      word-break:break-word;
-    }
-    .item .meta{
-      font-size:12px;
-      color:rgba(255,255,255,.55);
-      white-space:nowrap;
-    }
-    .x{
-      border:none;
-      background:transparent;
-      color:rgba(255,255,255,.65);
-      cursor:pointer;
-      font-size:18px;
-      line-height:1;
-      padding:0 2px;
-    }
+    .item .t{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.88);word-break:break-word;}
+    .item .meta{font-size:12px;color:rgba(255,255,255,.55);white-space:nowrap;}
+    .x{border:none;background:transparent;color:rgba(255,255,255,.65);cursor:pointer;font-size:18px;line-height:1;padding:0 2px;}
 
-    /* 右側：語錄 / 安裝 */
+    /* 右側 */
     .quote{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(0,0,0,.18);
       padding:14px 14px 12px;
     }
-    .quote p{
-      margin:0;
-      font-size:14px;
-      line-height:1.7;
-    }
-    .quote .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      margin-top:10px;
-      font-size:12px;
-      color:rgba(255,255,255,.62);
-    }
-    .small-card{
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-      padding:14px;
-    }
-    .small-card h3{
-      margin:0 0 8px;
-      font-size:13.5px;
-      letter-spacing:.04em;
-    }
-    .small-card ul{
-      margin:8px 0 0;
-      padding-left:18px;
-      color:rgba(255,255,255,.75);
-      font-size:13px;
-      line-height:1.6;
-    }
+    .quote p{margin:0;font-size:14px;line-height:1.75;}
+    .quote .tag{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:rgba(255,255,255,.62);}
+    .small-card{border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);padding:14px;}
+    .small-card h3{margin:0 0 8px;font-size:13.5px;letter-spacing:.04em;}
+    .small-card ul{margin:8px 0 0;padding-left:18px;color:rgba(255,255,255,.75);font-size:13px;line-height:1.7;}
     .mono{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
       font-size:12.5px;
@@ -456,9 +374,63 @@
       pointer-events:none;
       transition: opacity .18s ease, transform .18s ease;
     }
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(-2px);
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-2px);}
+
+    /* First-use overlay */
+    .overlay{
+      position:fixed; inset:0;
+      z-index:50;
+      background: rgba(2,4,12,.58);
+      backdrop-filter: blur(10px);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      padding:14px;
+    }
+    .overlay.show{display:flex;}
+    .sheet{
+      width:min(860px, 100%);
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(10,25,47,.78), rgba(6,12,33,.72));
+      box-shadow: 0 26px 90px rgba(0,0,0,.55);
+      padding:16px;
+    }
+    .sheet h3{
+      margin:0 0 10px;
+      font-size:15px;
+      letter-spacing:.06em;
+    }
+    .sheet p{
+      margin:0 0 10px;
+      color:rgba(255,255,255,.82);
+      font-size:13.5px;
+      line-height:1.75;
+    }
+    .sheet .muted{
+      margin-top:8px;
+      color:rgba(255,255,255,.62);
+      font-size:12.5px;
+      line-height:1.6;
+    }
+    .sheet .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top:12px;
+    }
+    .chip{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.80);
+      font-size:12.5px;
+      margin:6px 6px 0 0;
     }
   </style>
 </head>
@@ -466,13 +438,36 @@
 <body>
   <div class="stars" id="stars" aria-hidden="true"></div>
 
+  <!-- First-use overlay -->
+  <div class="overlay" id="firstOverlay" role="dialog" aria-modal="true" aria-label="第一次使用引導">
+    <div class="sheet">
+      <h3>歡迎你。</h3>
+      <p>這裡不是要你變好，也不是要你想通什麼。</p>
+      <p>如果你現在覺得亂、累、卡住，那代表你的系統需要慢下來，不是你不夠努力。</p>
+      <p>你可以照著走，也可以隨時停。</p>
+
+      <div>
+        <span class="chip">🧹 清理：把卡在心裡的先放出來</span>
+        <span class="chip">🌬️ 重置：讓身體慢下來</span>
+        <span class="chip">✨ 感恩：找一點點微光</span>
+      </div>
+
+      <p class="muted">你不需要每一個都做。做一個、或只是停一下，都可以。</p>
+
+      <div class="actions">
+        <button class="btn ghost" id="overlayClose" type="button">我想先自己看看</button>
+        <button class="btn primary" id="overlayGo" type="button">好，慢慢來</button>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
     <header>
       <div class="brand">
         <div class="logo" aria-hidden="true"><span>🕊️</span></div>
         <div class="title">
           <h1>ANGEL</h1>
-          <p>清理｜重置｜感恩 — 一個無廣告、無干擾、無須登入的極簡工具</p>
+          <p>清理｜重置｜感恩 — 無廣告、無干擾、無須登入</p>
         </div>
       </div>
 
@@ -490,10 +485,10 @@
     </header>
 
     <div class="grid">
-      <!-- Left: main -->
       <main class="card">
-        <h2>把心慢下來</h2>
-        <p class="sub">不需要解釋，不需要對錯。你只要做三件事：把它寫出來、把呼吸調回來、把注意力放回微光。</p>
+        <h2>你不用準備好，來到這裡就可以。</h2>
+        <p class="sub">這不是測驗，也不是訓練。你不需要完成任何事。</p>
+        <p class="micro">如果你只是想停一下，也很好。</p>
 
         <div class="tabs" role="tablist" aria-label="Angel 功能分頁">
           <div class="tab active" role="tab" aria-selected="true" tabindex="0" data-tab="clean">🧹 清理</div>
@@ -503,24 +498,20 @@
 
         <!-- 清理 -->
         <section id="panel-clean" class="panel burn" aria-label="清理">
-          <p class="sub" style="margin-top:0">
-            把腦中的吵雜先「卸載」到紙上（螢幕也算）。你不用寫得漂亮，只要寫得真實。
-          </p>
-
-          <textarea id="cleanText" placeholder="把此刻最卡的那一句寫出來……（例如：我好煩／我很怕／我受不了）"></textarea>
+          <p class="sub" style="margin-top:0">把卡在心裡的，先放出來。你不用寫完整，想到什麼，就寫什麼。</p>
+          <textarea id="cleanText" placeholder="你不用寫完整。想到什麼，就寫什麼……"></textarea>
+          <p class="micro">想停的時候，隨時可以停。這裡沒有進度，也沒有對錯。</p>
 
           <div class="row" style="margin-top:10px">
-            <button class="btn primary" id="destroyBtn" type="button">🔥 摧毀 / 放下</button>
+            <button class="btn primary" id="destroyBtn" type="button">🔥 先放在這裡</button>
             <button class="btn" id="clearBtn" type="button">🧽 清空</button>
-            <span class="hint">提示：摧毀會清空內容，並送你一則「清理」語錄。</span>
+            <span class="hint">按「放在這裡」會清空內容，並送你一則「清理」語錄。</span>
           </div>
         </section>
 
         <!-- 重置 -->
         <section id="panel-reset" class="panel" style="display:none" aria-label="重置">
-          <p class="sub" style="margin-top:0">
-            用呼吸把神經系統調回來。你不是要「變好」，你只是要先「回來」。
-          </p>
+          <p class="sub" style="margin-top:0">讓身體慢下來，大腦才會安靜。不用撐，一輪就好。</p>
 
           <div class="breath-area">
             <div class="row" style="justify-content:center">
@@ -541,46 +532,42 @@
               <div class="circle" id="breathCircle">
                 <div class="phase">
                   <p class="big" id="phaseText">準備</p>
-                  <p class="small" id="phaseSub">按下開始，跟著節奏走</p>
+                  <p class="small" id="phaseSub">按下開始，跟著節奏走（想停隨時停）</p>
                 </div>
               </div>
             </div>
 
             <div class="controls">
               <button class="btn primary" id="startBreath" type="button">▶︎ 開始</button>
-              <button class="btn" id="stopBreath" type="button">■ 停止</button>
+              <button class="btn" id="stopBreath" type="button">■ 停在這裡</button>
               <button class="btn" id="newResetQuote" type="button">🎴 抽一則重置語錄</button>
             </div>
 
-            <p class="hint" id="breathHint" style="text-align:center;margin:2px 0 0">
-              小提醒：吐氣要長一點，身體會比較快安靜下來。
-            </p>
+            <p class="hint" style="text-align:center;margin:2px 0 0">小提醒：吐氣要長一點，身體會比較快安靜下來。</p>
           </div>
         </section>
 
         <!-- 感恩 -->
         <section id="panel-gratitude" class="panel" style="display:none" aria-label="感恩">
-          <p class="sub" style="margin-top:0">
-            每天收集一點點「還可以」的微光。不是否認痛，而是讓大腦不要只抓住痛。
-          </p>
+          <p class="sub" style="margin-top:0">不一定要快樂，只是找一點點，現在是安全的感覺。</p>
 
           <div class="row">
-            <input class="input" id="gratInput" placeholder="今天的一點點微光是……（例如：我有喝到溫水／有人回我訊息）" />
-            <button class="btn primary" id="addGrat" type="button">＋ 加入</button>
+            <input class="input" id="gratInput" placeholder="一件很小的事，也算……" />
+            <button class="btn primary" id="addGrat" type="button">＋ 收下</button>
           </div>
-          <p class="hint" style="margin:10px 0 0">
-            ※ 目前版本：重新整理後會消失（未來可加 localStorage 持久化）。
-          </p>
+          <p class="micro">想不到，也沒關係。你只是把注意力輕輕放回來。</p>
+          <p class="hint" style="margin:10px 0 0">※ 目前版本：重新整理後會消失（未來可加入 localStorage）。</p>
 
           <div class="list" id="gratList" aria-label="感恩清單"></div>
 
           <div class="hr"></div>
-
           <button class="btn" id="newGratQuote" type="button">🎴 抽一則感恩語錄</button>
         </section>
+
+        <div class="hr"></div>
+        <p class="micro" id="exitLine">你什麼都不用完成。願意停一下，本身就是照顧。</p>
       </main>
 
-      <!-- Right: sidebar -->
       <aside class="card">
         <h2>此刻一句話</h2>
         <p class="sub" style="margin-top:0">語錄會依你正在做的動作切換：清理 / 重置 / 感恩。</p>
@@ -593,23 +580,39 @@
         <div class="hr"></div>
 
         <div class="small-card" id="helpPanel" style="display:none">
+          <h3>說明（給使用者）</h3>
+          <ul>
+            <li><b>你不需要做完三步驟</b>：做一個、或只是停一下，都可以。</li>
+            <li>這裡沒有評分、沒有進度，也不需要登入。</li>
+            <li>若使用過程讓你更不舒服，請先停止，並找你信任的人或專業協助。</li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <h3>科學依據（摘要）</h3>
+          <ul>
+            <li><b>清理</b>：書寫外化可協助情緒標記與認知卸載，提升前額葉調節，降低情緒過載。</li>
+            <li><b>重置</b>：延長吐氣的節律呼吸可刺激迷走神經，啟動副交感神經，讓身體回到安全基線。</li>
+            <li><b>感恩</b>：大腦有負向偏誤，微光練習能重新校準注意力權重，提升穩定感。</li>
+          </ul>
+
+          <div class="hr"></div>
+
           <h3>安裝指引（重要）</h3>
           <ul>
             <li><b>請用正確瀏覽器開啟</b>：不要用 Line/FB 內建瀏覽器（常會擋 PWA）。</li>
-            <li>Android（Chrome）：可看到「安裝到主畫面」或按右上角選單「加入主畫面」。</li>
+            <li>Android（Chrome）：可看到安裝提示，或右上角選單「加入主畫面」。</li>
             <li>iOS（Safari）：按「分享」→「加入主畫面」。</li>
           </ul>
-          <p class="hint" style="margin:10px 0 0">
-            如果你是從 Line/FB 打開：請先「複製網址」，改用 Safari/Chrome 貼上開啟。
-          </p>
+          <p class="hint" style="margin:10px 0 0">如果你是從 Line/FB 打開：請先「複製網址」，改用 Safari/Chrome 貼上開啟。</p>
           <div class="mono" id="urlBox"></div>
         </div>
 
         <div class="small-card" style="margin-top:12px">
           <h3>音訊提示</h3>
           <ul>
-            <li>手機瀏覽器會限制自動播放，請先按上方 <b>🎵 解鎖音訊</b>。</li>
-            <li>若播放失敗，系統會先以靜音嘗試再解除靜音（提高成功率）。</li>
+            <li>手機限制自動播放，請先按上方 <b>🎵 解鎖音訊</b>。</li>
+            <li>若播放失敗，程式會先靜音播放再解除靜音（提高成功率）。</li>
           </ul>
         </div>
       </aside>
@@ -621,9 +624,6 @@
   <audio id="bgAudio" preload="auto" playsinline loop></audio>
 
   <script>
-    /***********************
-     * 0) 安全小工具
-     ***********************/
     const $ = (sel) => document.querySelector(sel);
     const starsEl = $('#stars');
     const toastEl = $('#toast');
@@ -634,28 +634,22 @@
       showToast._t = setTimeout(()=>toastEl.classList.remove('show'), 1800);
     };
 
-    /***********************
-     * 1) 星空生成（隨機閃爍）
-     ***********************/
+    // 星空
     (function makeStars(){
-      const count = 90;
-      const bigCount = 16;
+      const count = 90, bigCount = 16;
       const make = (isBig=false) => {
         const s = document.createElement('div');
         s.className = 'star' + (isBig ? ' big' : '');
         s.style.left = (Math.random()*100).toFixed(2) + '%';
         s.style.top  = (Math.random()*100).toFixed(2) + '%';
-        const tw = (2.2 + Math.random()*4.8).toFixed(2) + 's';
-        s.style.setProperty('--tw', tw);
+        s.style.setProperty('--tw', (2.2 + Math.random()*4.8).toFixed(2) + 's');
         starsEl.appendChild(s);
       };
       for(let i=0;i<count;i++) make(false);
       for(let i=0;i<bigCount;i++) make(true);
     })();
 
-    /***********************
-     * 2) 語錄系統（依動作主題）
-     ***********************/
+    // 語錄
     const QUOTES = {
       clean: [
         "先把它寫出來，不是為了說服誰，是為了讓自己鬆一口氣。",
@@ -687,28 +681,17 @@
 
     const quoteTextEl = $('#quoteText');
     const quoteTagEl = $('#quoteTag');
-
-    function pick(arr){
-      return arr[Math.floor(Math.random()*arr.length)];
-    }
+    const pick = (arr)=> arr[Math.floor(Math.random()*arr.length)];
     function setQuote(kind){
-      const text = pick(QUOTES[kind] || QUOTES.general);
-      quoteTextEl.textContent = text;
+      quoteTextEl.textContent = pick(QUOTES[kind] || QUOTES.general);
       const tagMap = {clean:"清理", reset:"重置", gratitude:"感恩", general:"通用"};
       quoteTagEl.textContent = tagMap[kind] || "通用";
     }
 
-    /***********************
-     * 3) Tabs 切換
-     ***********************/
+    // Tabs
     const tabs = Array.from(document.querySelectorAll('.tab'));
-    const panels = {
-      clean: $('#panel-clean'),
-      reset: $('#panel-reset'),
-      gratitude: $('#panel-gratitude')
-    };
+    const panels = { clean: $('#panel-clean'), reset: $('#panel-reset'), gratitude: $('#panel-gratitude') };
     let currentTab = "clean";
-
     function switchTab(name){
       currentTab = name;
       tabs.forEach(t=>{
@@ -716,31 +699,20 @@
         t.classList.toggle('active', active);
         t.setAttribute('aria-selected', String(active));
       });
-      Object.entries(panels).forEach(([k,el])=>{
-        el.style.display = (k===name) ? '' : 'none';
-      });
+      Object.entries(panels).forEach(([k,el])=>{ el.style.display = (k===name) ? '' : 'none'; });
       setQuote(name);
     }
-
     tabs.forEach(t=>{
       t.addEventListener('click', ()=> switchTab(t.dataset.tab));
-      t.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchTab(t.dataset.tab); }
-      });
+      t.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); switchTab(t.dataset.tab);} });
     });
 
-    /***********************
-     * 4) 清理：摧毀 / 清空
-     ***********************/
+    // 清理
     const cleanText = $('#cleanText');
     const destroyBtn = $('#destroyBtn');
     const clearBtn = $('#clearBtn');
     const burnPanel = $('#panel-clean');
-
-    function burnEffect(){
-      burnPanel.classList.add('burning');
-      setTimeout(()=>burnPanel.classList.remove('burning'), 950);
-    }
+    function burnEffect(){ burnPanel.classList.add('burning'); setTimeout(()=>burnPanel.classList.remove('burning'), 950); }
 
     destroyBtn.addEventListener('click', ()=>{
       const val = cleanText.value.trim();
@@ -755,15 +727,9 @@
       setQuote('clean');
       showToast("已放下。先呼吸一下。");
     });
+    clearBtn.addEventListener('click', ()=>{ cleanText.value=""; showToast("已清空。"); });
 
-    clearBtn.addEventListener('click', ()=>{
-      cleanText.value = "";
-      showToast("已清空。");
-    });
-
-    /***********************
-     * 5) 重置：呼吸 4-4-8 / 4-7-8
-     ***********************/
+    // 重置呼吸
     const patternSel = $('#patternSel');
     const speedSel = $('#speedSel');
     const breathCircle = $('#breathCircle');
@@ -777,14 +743,11 @@
     let breathRunning = false;
 
     function getPattern(){
-      const v = patternSel.value;
-      if(v === '478') return {in:4, hold:7, out:8, label:"4-7-8"};
-      return {in:4, hold:4, out:8, label:"4-4-8"};
+      return patternSel.value === '478'
+        ? {in:4, hold:7, out:8, label:"4-7-8"}
+        : {in:4, hold:4, out:8, label:"4-4-8"};
     }
-
-    function getSpeedFactor(){
-      return speedSel.value === 'slow' ? 1.25 : 1;
-    }
+    function getSpeedFactor(){ return speedSel.value === 'slow' ? 1.25 : 1; }
 
     function stopBreathing(){
       breathRunning = false;
@@ -792,13 +755,12 @@
       breathTimer = null;
       breathCircle.classList.remove('pulse');
       phaseText.textContent = "準備";
-      phaseSub.textContent = "按下開始，跟著節奏走";
-      showToast("已停止。");
+      phaseSub.textContent = "按下開始，跟著節奏走（想停隨時停）";
+      showToast("已停在這裡。");
     }
 
     function runCycle(){
       if(!breathRunning) return;
-
       const p = getPattern();
       const f = getSpeedFactor();
       const tIn = Math.round(p.in * f);
@@ -809,28 +771,13 @@
       breathCircle.style.setProperty('--dur', total + 's');
       breathCircle.classList.add('pulse');
 
-      // phase timeline
       phaseText.textContent = "吸氣";
       phaseSub.textContent = `${p.label}｜吸 ${tIn}s`;
+
       let acc = 0;
-
-      breathTimer = setTimeout(()=>{
-        if(!breathRunning) return;
-        phaseText.textContent = "停住";
-        phaseSub.textContent = `憋 ${tHold}s`;
-      }, (acc += tIn) * 1000);
-
-      breathTimer = setTimeout(()=>{
-        if(!breathRunning) return;
-        phaseText.textContent = "吐氣";
-        phaseSub.textContent = `吐 ${tOut}s（吐長一點）`;
-      }, (acc += tHold) * 1000);
-
-      breathTimer = setTimeout(()=>{
-        if(!breathRunning) return;
-        // next cycle
-        runCycle();
-      }, (acc += tOut) * 1000);
+      breathTimer = setTimeout(()=>{ if(!breathRunning) return; phaseText.textContent="停住"; phaseSub.textContent=`憋 ${tHold}s`; }, (acc += tIn)*1000);
+      breathTimer = setTimeout(()=>{ if(!breathRunning) return; phaseText.textContent="吐氣"; phaseSub.textContent=`吐 ${tOut}s（吐長一點）`; }, (acc += tHold)*1000);
+      breathTimer = setTimeout(()=>{ if(!breathRunning) return; runCycle(); }, (acc += tOut)*1000);
     }
 
     startBreath.addEventListener('click', ()=>{
@@ -840,14 +787,9 @@
       showToast("開始重置。跟著呼吸走。");
       runCycle();
     });
-
     stopBreath.addEventListener('click', stopBreathing);
-    newResetQuote.addEventListener('click', ()=>{
-      setQuote('reset');
-      showToast("重置語錄已更新。");
-    });
+    newResetQuote.addEventListener('click', ()=>{ setQuote('reset'); showToast("重置語錄已更新。"); });
 
-    // 切換參數時，若正在呼吸，重啟 cycle
     [patternSel, speedSel].forEach(el=>{
       el.addEventListener('change', ()=>{
         if(!breathRunning) return;
@@ -857,9 +799,7 @@
       });
     });
 
-    /***********************
-     * 6) 感恩：微光清單（暫不持久化）
-     ***********************/
+    // 感恩
     const gratInput = $('#gratInput');
     const addGrat = $('#addGrat');
     const gratList = $('#gratList');
@@ -867,20 +807,20 @@
 
     function nowTime(){
       const d = new Date();
-      const hh = String(d.getHours()).padStart(2,'0');
-      const mm = String(d.getMinutes()).padStart(2,'0');
-      return `${hh}:${mm}`;
+      return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     }
 
     function renderItem(text){
       const wrap = document.createElement('div');
       wrap.className = 'item';
+
       const left = document.createElement('div');
       left.style.display='flex';
       left.style.flexDirection='column';
       left.style.gap='4px';
+
       const t = document.createElement('div');
-      t.className = 't';
+      t.className='t';
       t.textContent = text;
 
       const meta = document.createElement('div');
@@ -895,10 +835,7 @@
       x.type='button';
       x.setAttribute('aria-label','刪除');
       x.textContent='×';
-      x.addEventListener('click', ()=>{
-        wrap.remove();
-        showToast("已移除。");
-      });
+      x.addEventListener('click', ()=>{ wrap.remove(); showToast("已移除。"); });
 
       wrap.appendChild(left);
       wrap.appendChild(x);
@@ -920,25 +857,14 @@
     }
 
     addGrat.addEventListener('click', addOne);
-    gratInput.addEventListener('keydown', (e)=>{
-      if(e.key === 'Enter'){ e.preventDefault(); addOne(); }
-    });
+    gratInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); addOne(); }});
+    newGratQuote.addEventListener('click', ()=>{ setQuote('gratitude'); showToast("感恩語錄已更新。"); });
 
-    newGratQuote.addEventListener('click', ()=>{
-      setQuote('gratitude');
-      showToast("感恩語錄已更新。");
-    });
-
-    /***********************
-     * 7) 音訊：手動解鎖 + muted 誘導 + loop + playsinline
-     ***********************/
+    // 音訊（你可以換成自己的 CORS 直連 mp3）
     const audioBtn = $('#audioBtn');
     const audioLabel = $('#audioLabel');
     const bgAudio = $('#bgAudio');
 
-    // ✅ 你要用雲端音源（需 CORS 穩定）
-    // 你可以把下面連結換成你已挑好的 Pixabay/Chosic 直連 mp3（確保可跨域）
-    // 目前先放「佔位」：請務必換成可用音源，否則會播放失敗。
     const AUDIO_URL = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_1b0b54d3d3.mp3?filename=meditation-11280.mp3";
 
     bgAudio.src = AUDIO_URL;
@@ -953,13 +879,13 @@
         bgAudio.muted = false;
         await bgAudio.play();
         return true;
-      }catch(e1){
+      }catch{
         try{
           bgAudio.muted = true;
           await bgAudio.play();
           bgAudio.muted = false;
           return true;
-        }catch(e2){
+        }catch{
           return false;
         }
       }
@@ -974,83 +900,95 @@
       }else{
         audioUnlocked = false;
         audioLabel.textContent = "解鎖音訊";
-        showToast("播放失敗：請確認音源連結可用，並在 Safari/Chrome 嘗試。");
+        showToast("播放失敗：請確認音源連結可用，並用 Safari/Chrome。");
       }
     });
 
-    // 背景切回前台時，若已解鎖，嘗試續播（不保證每台都行，但有幫助）
     document.addEventListener('visibilitychange', ()=>{
       if(document.hidden) return;
-      if(audioUnlocked){
-        tryPlayWithMutedTrick();
-      }
+      if(audioUnlocked) tryPlayWithMutedTrick();
     });
 
-    /***********************
-     * 8) PWA：Service Worker & 安裝提示
-     ***********************/
     // SW 註冊
     if('serviceWorker' in navigator){
       window.addEventListener('load', async ()=>{
-        try{
-          await navigator.serviceWorker.register('./sw.js', { scope: './' });
-        }catch(err){
-          // 不打擾使用者
-        }
+        try{ await navigator.serviceWorker.register('./sw.js', { scope: './' }); }catch{}
       });
     }
 
     // Android install prompt
     const installBtn = $('#installBtn');
     let deferredPrompt = null;
-
     window.addEventListener('beforeinstallprompt', (e)=>{
       e.preventDefault();
       deferredPrompt = e;
       installBtn.style.display = '';
     });
-
     installBtn.addEventListener('click', async ()=>{
       if(!deferredPrompt){
         showToast("若看不到安裝：請用 Chrome 開啟，且不要用內建瀏覽器。");
         return;
       }
       deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
+      await deferredPrompt.userChoice;
       deferredPrompt = null;
       installBtn.style.display = 'none';
-      showToast(choice?.outcome === 'accepted' ? "已送出安裝。" : "已取消安裝。");
+      showToast("已送出安裝。");
     });
 
-    /***********************
-     * 9) 說明面板（右側）
-     ***********************/
+    // 說明面板
     const helpBtn = $('#helpBtn');
     const helpPanel = $('#helpPanel');
     const urlBox = $('#urlBox');
-
-    function updateUrlBox(){
-      try{
-        urlBox.textContent = location.href;
-      }catch{
-        urlBox.textContent = "(無法取得網址)";
-      }
-    }
+    function updateUrlBox(){ try{ urlBox.textContent = location.href; }catch{ urlBox.textContent="(無法取得網址)"; } }
     updateUrlBox();
-
     helpBtn.addEventListener('click', ()=>{
       const show = helpPanel.style.display === 'none';
       helpPanel.style.display = show ? '' : 'none';
-      if(show){
-        updateUrlBox();
-        showToast("已展開說明。");
-      }
+      if(show){ updateUrlBox(); showToast("已展開說明。"); }
     });
 
-    /***********************
-     * 10) 初始狀態
-     ***********************/
+    // First-use overlay logic (show once)
+    const firstOverlay = $('#firstOverlay');
+    const overlayClose = $('#overlayClose');
+    const overlayGo = $('#overlayGo');
+    const FIRST_KEY = "angel_first_seen_v1";
+
+    function openOverlay(){
+      firstOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeOverlay(){
+      firstOverlay.classList.remove('show');
+      document.body.style.overflow = '';
+      try{ localStorage.setItem(FIRST_KEY, "1"); }catch{}
+    }
+
+    overlayClose.addEventListener('click', ()=>{ closeOverlay(); });
+    overlayGo.addEventListener('click', ()=>{
+      closeOverlay();
+      // gently focus on first input
+      try{ $('#cleanText').focus({preventScroll:false}); }catch{}
+      showToast("慢慢來。先寫一句就好。");
+    });
+
+    // click outside sheet closes (optional gentle)
+    firstOverlay.addEventListener('click', (e)=>{
+      if(e.target === firstOverlay) closeOverlay();
+    });
+
+    // initial
     setQuote('general');
+
+    // show overlay only if not seen
+    (function(){
+      let seen = false;
+      try{ seen = localStorage.getItem(FIRST_KEY) === "1"; }catch{}
+      if(!seen){
+        // small delay for nicer load
+        setTimeout(openOverlay, 350);
+      }
+    })();
   </script>
 </body>
   </html>
