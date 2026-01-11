@@ -1,1 +1,1218 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#060c21" />
+  <title>Angel｜心靈淨化</title>
 
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+
+  <style>
+    :root{
+      --bg1:#0a192f;
+      --bg2:#060c21;
+      --card:rgba(255,255,255,.08);
+      --card2:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --soft:rgba(255,255,255,.10);
+      --shadow: 0 18px 40px rgba(0,0,0,.25);
+      --radius: 22px;
+      --radius2: 16px;
+      --btn: rgba(255,255,255,.10);
+      --btn2: rgba(255,255,255,.14);
+      --danger: rgba(255,120,120,.18);
+      --ok: rgba(120,255,200,.14);
+      --focus: rgba(160,190,255,.22);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-synthesis-weight:none;
+      color-scheme: dark;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", system-ui, sans-serif;
+      background: radial-gradient(1200px 800px at 50% -10%, rgba(110,150,255,.18), transparent 55%),
+                  linear-gradient(to bottom, var(--bg1), var(--bg2));
+      color:var(--text);
+      overflow-x:hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 星空背景：Canvas 疊在最底 */
+    #stars{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      width:100%;
+      height:100%;
+      opacity:.95;
+    }
+    .vignette{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 500px at 50% 10%, rgba(0,0,0,0), rgba(0,0,0,.25) 65%),
+        radial-gradient(900px 700px at 50% 110%, rgba(0,0,0,0), rgba(0,0,0,.40) 70%);
+      opacity:.9;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 16px 26px;
+      padding-bottom: calc(22px + env(safe-area-inset-bottom));
+    }
+
+    header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .brand h1{
+      margin:0;
+      font-weight: 500;
+      letter-spacing: .12em;
+      font-size: 30px;
+    }
+    .brand .sub{
+      margin:0;
+      font-size: 13px;
+      opacity:.70;
+      letter-spacing:.04em;
+      line-height:1.55;
+    }
+
+    .topActions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+    }
+
+    select, button, input, textarea{
+      font:inherit;
+      color:var(--text);
+    }
+    select{
+      background: transparent;
+      border:0;
+      outline:none;
+      color:var(--text);
+      padding-right: 4px;
+    }
+
+    .btn{
+      border:1px solid var(--line);
+      background: var(--btn);
+      border-radius: 999px;
+      padding:10px 14px;
+      cursor:pointer;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: var(--btn2); }
+    .btn:active{ transform: scale(.98); }
+    .btn.primary{
+      background: rgba(160,190,255,.14);
+      border-color: rgba(160,190,255,.28);
+    }
+    .btn.primary:hover{ background: rgba(160,190,255,.18); }
+    .btn.danger{
+      background: var(--danger);
+      border-color: rgba(255,120,120,.24);
+    }
+    .btn.ghost{
+      background: transparent;
+    }
+    .btn.small{
+      padding:8px 12px;
+      font-size: 13px;
+    }
+
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin: 10px 0 14px;
+    }
+    .tab{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      padding:10px 14px;
+      cursor:pointer;
+      opacity:.82;
+      user-select:none;
+    }
+    .tab.active{
+      opacity:1;
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      backdrop-filter: blur(10px);
+    }
+    .cardHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom: 10px;
+    }
+    .cardTitle{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .cardTitle h2{
+      margin:0;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+    .cardTitle p{
+      margin:0;
+      font-size: 13px;
+      opacity:.72;
+      line-height: 1.55;
+    }
+
+    .inner{
+      background: var(--card2);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius2);
+      padding: 12px;
+    }
+
+    textarea{
+      width:100%;
+      min-height: 180px;
+      resize: vertical;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      padding: 12px 12px;
+      outline:none;
+      line-height: 1.7;
+    }
+    textarea:focus{
+      border-color: rgba(160,190,255,.38);
+      box-shadow: 0 0 0 4px rgba(160,190,255,.10);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-start;
+      margin-top: 10px;
+    }
+
+    .hint{
+      font-size: 13px;
+      opacity:.70;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    /* 清理摧毀動畫 */
+    .shredStage{
+      position:relative;
+      overflow:hidden;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.16);
+      min-height: 120px;
+      padding: 12px;
+    }
+    .shredNote{
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.65;
+      opacity:.86;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .shredOverlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:0;
+    }
+    .shredOverlay.active{ opacity:1; }
+    .shredLine{
+      position:absolute;
+      top:-20%;
+      width: 14px;
+      height: 140%;
+      background: rgba(255,255,255,.10);
+      transform: rotate(16deg);
+      animation: shred 900ms ease-in forwards;
+      filter: blur(.2px);
+    }
+    @keyframes shred{
+      0%{ transform: translateX(-20%) rotate(16deg); opacity:.0; }
+      15%{ opacity:1; }
+      100%{ transform: translateX(160%) rotate(16deg); opacity:0; }
+    }
+    .fadeOut{
+      animation: fadeOut 900ms ease forwards;
+    }
+    @keyframes fadeOut{
+      to{ opacity:0; transform: translateY(6px); filter: blur(1px); }
+    }
+
+    /* 呼吸圓圈 */
+    .breathBox{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .circleWrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 0;
+      width: 100%;
+    }
+    .circle{
+      width: 240px;
+      height: 240px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: radial-gradient(130px 130px at 50% 40%, rgba(160,190,255,.18), rgba(255,255,255,.05));
+      box-shadow: 0 22px 50px rgba(0,0,0,.28);
+      transform: scale(.92);
+      transition: transform 1s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .circle::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.18), transparent 65%);
+      opacity:.25;
+      transform: rotate(0deg);
+      animation: shimmer 10s linear infinite;
+    }
+    @keyframes shimmer{
+      to{ transform: rotate(360deg); }
+    }
+    .phase{
+      margin-top: 10px;
+      text-align:center;
+      font-size: 14px;
+      letter-spacing:.05em;
+      opacity:.88;
+    }
+    .timer{
+      font-family: var(--mono);
+      text-align:center;
+      margin-top: 6px;
+      opacity:.78;
+      font-size: 13px;
+    }
+
+    /* 感恩清單 */
+    .gratForm{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .textInput{
+      flex: 1 1 220px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      border-radius: 999px;
+      padding: 10px 12px;
+      outline:none;
+    }
+    .textInput:focus{
+      border-color: rgba(160,190,255,.38);
+      box-shadow: 0 0 0 4px rgba(160,190,255,.10);
+    }
+    .list{
+      margin-top: 10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .item{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+    }
+    .item .meta{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .item .meta .txt{
+      line-height:1.55;
+      word-break:break-word;
+    }
+    .item .meta .time{
+      font-family: var(--mono);
+      font-size: 11px;
+      opacity:.65;
+    }
+
+    /* 說明頁 */
+    .doc p{ margin: 8px 0; line-height: 1.75; opacity:.82; }
+    .doc .k{ opacity:.92; }
+    .doc .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      border-radius:999px;
+      padding: 8px 12px;
+      margin: 6px 8px 0 0;
+      font-size: 13px;
+      opacity:.88;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s ease, transform .22s ease;
+      font-size: 13px;
+      letter-spacing:.02em;
+      z-index: 50;
+      max-width: calc(100vw - 26px);
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+
+    /* 小型 debug（預設關） */
+    .debug{
+      display:none;
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      opacity:.8;
+      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+
+    .footerNote{
+      margin-top: 14px;
+      opacity:.60;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="stars"></canvas>
+  <div class="vignette"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <h1>Angel</h1>
+        <p class="sub">清理 × 重置 × 感恩｜極簡、無干擾、無登入</p>
+      </div>
+
+      <div class="topActions">
+        <div class="pill" title="自然音（需手動解鎖）">
+          <select id="soundSel" aria-label="自然音選擇">
+            <option value="night">🌙 夜裡的風</option>
+            <option value="ocean">🌊 海浪</option>
+            <option value="rain">🌧️ 細雨</option>
+          </select>
+          <button class="btn small primary" id="audioBtn" type="button">🎧 開始</button>
+        </div>
+        <button class="btn small ghost" id="helpBtn" type="button">❔ 說明</button>
+      </div>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="功能切換">
+      <div class="tab active" data-tab="clean" role="tab" aria-selected="true">🗑️ 清理</div>
+      <div class="tab" data-tab="reset" role="tab" aria-selected="false">🫧 重置</div>
+      <div class="tab" data-tab="grat" role="tab" aria-selected="false">✨ 感恩</div>
+    </div>
+
+    <!-- 清理 -->
+    <section id="tab-clean">
+      <div class="grid">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>清理｜把腦內負載先卸下來</h2>
+              <p>把卡在腦中的內容「寫出來」，讓前額葉重新接手。</p>
+            </div>
+            <div class="row" style="margin:0">
+              <button class="btn small" id="pasteBtn" type="button">📋 貼上</button>
+              <button class="btn small" id="copyBtn" type="button">🧷 複製</button>
+              <button class="btn small danger" id="destroyBtn" type="button">🔥 摧毀</button>
+            </div>
+          </div>
+
+          <textarea id="dump" placeholder="把你腦中正在吵的那段話，先寫下來。&#10;不用修飾、不用漂亮、越真實越好。"></textarea>
+
+          <div class="hint">
+            小提醒：這一步不是在「解決」，而是在做 <span class="k">cognitive offloading</span>（認知卸載）。先讓系統降噪，才有空間處理。
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>摧毀區｜把它送走</h2>
+              <p>不刪你的人生，只刪現在這段噪音。</p>
+            </div>
+            <button class="btn small" id="clearShredBtn" type="button">清空區域</button>
+          </div>
+
+          <div class="shredStage" id="shredStage">
+            <div class="shredNote" id="shredText">（摧毀前會先把文字投影到這裡，讓你看見「已經放下」）</div>
+            <div class="shredOverlay" id="shredOverlay"></div>
+          </div>
+
+          <div class="footerNote">
+            若你是在 LINE/FB 內建瀏覽器，可能會限制安裝/離線/音訊。建議改用 Chrome / Safari 開啟，讓 Angel 更穩。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 重置 -->
+    <section id="tab-reset" style="display:none">
+      <div class="grid">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>重置｜讓副交感神經上線</h2>
+              <p>用節律呼吸，降低杏仁核警報，讓身體先回到安全。</p>
+            </div>
+            <div class="row" style="margin:0">
+              <select id="patternSel" class="btn small" aria-label="呼吸法選擇">
+                <option value="4-4-8">4-4-8</option>
+                <option value="4-7-8">4-7-8</option>
+              </select>
+              <button class="btn small primary" id="breathBtn" type="button">▶ 開始</button>
+              <button class="btn small" id="breathStopBtn" type="button">■ 停止</button>
+            </div>
+          </div>
+
+          <div class="inner">
+            <div class="circleWrap">
+              <div class="circle" id="circle"></div>
+            </div>
+            <div class="phase" id="phase">準備好就開始。先慢一下。</div>
+            <div class="timer" id="timer">pattern: 4-4-8</div>
+          </div>
+
+          <div class="hint">
+            你正在做的是 <span class="k">nervous system regulation</span>（神經系統調節）。
+            先讓呼吸帶回節律，前額葉才會重新有「選擇」。
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>一句穩住</h2>
+              <p>當下只需要一個位置。</p>
+            </div>
+            <button class="btn small" id="quoteBtn" type="button">🎲 換一句</button>
+          </div>
+
+          <div class="inner" id="quoteBox" style="min-height:120px; display:flex; align-items:center;">
+            <div style="line-height:1.75; opacity:.90;">
+              我不是來逼自己「立刻變好」，我只是先把身體帶回安全。
+            </div>
+          </div>
+
+          <div class="footerNote">
+            若「開始」後你只覺得很小聲，可能是 Angel 的自然音採用溫和淡入（是正常設計）。
+            你可以把手機音量先開大一點。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 感恩 -->
+    <section id="tab-grat" style="display:none">
+      <div class="grid">
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>感恩｜重塑大腦的注意力濾鏡</h2>
+              <p>每天三個「微光」就好，讓你的 RAS 重新看到資源。</p>
+            </div>
+            <div class="row" style="margin:0">
+              <button class="btn small" id="exportBtn" type="button">📤 匯出</button>
+              <button class="btn small danger" id="wipeBtn" type="button">清空全部</button>
+            </div>
+          </div>
+
+          <div class="inner">
+            <div class="gratForm">
+              <input id="gratInput" class="textInput" placeholder="寫下一個你願意感謝的微小片刻…" />
+              <button class="btn primary" id="addGratBtn" type="button">＋ 加入</button>
+            </div>
+            <div class="hint">提示：越具體越好（例如「今天走路時風吹在臉上」）。這會更容易啟動正向編碼。</div>
+          </div>
+
+          <div class="list" id="gratList"></div>
+        </div>
+
+        <div class="card">
+          <div class="cardHeader">
+            <div class="cardTitle">
+              <h2>說明｜為什麼是清理、重置、感恩</h2>
+              <p>用腦神經語言講清楚，讓使用者更安心。</p>
+            </div>
+          </div>
+
+          <div class="inner doc">
+            <div class="chip">🗑️ 清理＝認知卸載</div>
+            <div class="chip">🫧 重置＝副交感上線</div>
+            <div class="chip">✨ 感恩＝注意力再校準</div>
+
+            <p><span class="k">清理（Cognitive offloading）</span>：把反芻與情緒內容從工作記憶卸下，降低「內在噪音」，讓前額葉能重新做決策。</p>
+            <p><span class="k">重置（Nervous system regulation）</span>：用節律呼吸提升迷走神經張力，降低交感亢奮，讓杏仁核警報下來，身體先回到安全。</p>
+            <p><span class="k">感恩（Positive priming）</span>：用微小正向線索訓練注意力系統（RAS）與預測模型，讓大腦更容易看見資源與可能性，而不是只盯威脅。</p>
+
+            <div class="footerNote">
+              安裝提醒：若從 LINE/FB 內建瀏覽器開啟，PWA 安裝與離線/音訊可能受限。建議複製網址改用 Chrome / Safari。
+            </div>
+          </div>
+
+          <div class="row">
+            <button class="btn" id="copyUrlBtn" type="button">🔗 複製本頁網址</button>
+            <button class="btn" id="toggleDebugBtn" type="button">🧪 Debug</button>
+          </div>
+
+          <div class="debug" id="dbg">debug: ready</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">提示</div>
+
+  <audio id="bgAudio" preload="auto" playsinline loop></audio>
+
+  <script>
+    /***********************
+     * 基本工具
+     ***********************/
+    const $ = (sel)=>document.querySelector(sel);
+    const toastEl = $("#toast");
+    let toastTimer = null;
+    function toast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 1400);
+    }
+
+    function nowISO(){
+      const d = new Date();
+      const pad = (n)=> String(n).padStart(2,"0");
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    /***********************
+     * Tabs
+     ***********************/
+    const tabs = document.querySelectorAll(".tab");
+    const sections = {
+      clean: $("#tab-clean"),
+      reset: $("#tab-reset"),
+      grat:  $("#tab-grat")
+    };
+    function setTab(name){
+      tabs.forEach(t=>{
+        const on = t.dataset.tab === name;
+        t.classList.toggle("active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      Object.keys(sections).forEach(k=>{
+        sections[k].style.display = (k===name) ? "" : "none";
+      });
+      localStorage.setItem("angel_tab", name);
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+    tabs.forEach(t=>{
+      t.addEventListener("click", ()=> setTab(t.dataset.tab));
+    });
+    setTab(localStorage.getItem("angel_tab") || "clean");
+
+    $("#helpBtn").addEventListener("click", ()=> setTab("grat"));
+
+    /***********************
+     * 星空背景（Canvas）
+     ***********************/
+    const canvas = $("#stars");
+    const ctx = canvas.getContext("2d");
+    let W=0,H=0,stars=[];
+    function resize(){
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = canvas.width = Math.floor(window.innerWidth * dpr);
+      H = canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth+"px";
+      canvas.style.height = window.innerHeight+"px";
+      ctx.setTransform(1,0,0,1,0,0);
+      stars = [];
+      const count = Math.floor((window.innerWidth*window.innerHeight) / 9000);
+      for(let i=0;i<count;i++){
+        stars.push({
+          x: Math.random()*W,
+          y: Math.random()*H,
+          r: (Math.random()*1.4 + 0.4) * dpr,
+          a: Math.random()*0.7 + 0.2,
+          tw: Math.random()*0.015 + 0.005
+        });
+      }
+    }
+    function tick(){
+      ctx.clearRect(0,0,W,H);
+      for(const s of stars){
+        s.a += (Math.random()-0.5)*s.tw;
+        s.a = Math.max(0.08, Math.min(0.9, s.a));
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+    window.addEventListener("resize", resize);
+    resize(); tick();
+
+    /***********************
+     * 音訊：本地檔 + 手動解鎖 + 溫和淡入淡出
+     ***********************/
+    const audio = $("#bgAudio");
+    const audioBtn = $("#audioBtn");
+    const soundSel = $("#soundSel");
+    const dbg = $("#dbg");
+    const toggleDebugBtn = $("#toggleDebugBtn");
+    let debugOn = false;
+
+    const SOURCES = {
+      night: "./audio/night.mp3",
+      ocean: "./audio/ocean.mp3",
+      rain:  "./audio/rain.mp3"
+    };
+
+    let playing = false;
+    let fadeTimer = null;
+
+    function log(line){
+      if(!debugOn) return;
+      dbg.textContent = (dbg.textContent + "\n" + line).slice(-2500);
+    }
+
+    function setSource(key){
+      audio.src = SOURCES[key];
+      audio.load();
+      log("src=" + key + " -> " + audio.src);
+    }
+
+    function clearFade(){
+      if(fadeTimer){ clearInterval(fadeTimer); fadeTimer = null; }
+    }
+
+    function fadeIn(target=0.18, duration=3500){
+      clearFade();
+      audio.volume = 0;
+      const steps = Math.max(12, Math.floor(duration/120));
+      const step = target/steps;
+      fadeTimer = setInterval(()=>{
+        audio.volume = Math.min(target, audio.volume + step);
+        if(audio.volume >= target){ clearFade(); }
+      }, 120);
+    }
+
+    function fadeOutPause(duration=900){
+      clearFade();
+      const start = (audio.volume || 0.18);
+      const steps = Math.max(10, Math.floor(duration/120));
+      const step = start/steps;
+      fadeTimer = setInterval(()=>{
+        audio.volume = Math.max(0, audio.volume - step);
+        if(audio.volume <= 0.001){
+          clearFade();
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      }, 120);
+    }
+
+    // 事件：只在 Debug 開啟時紀錄
+    ["loadstart","loadedmetadata","canplay","playing","pause","stalled","waiting","ended"].forEach(ev=>{
+      audio.addEventListener(ev, ()=> log(`event:${ev} t=${audio.currentTime.toFixed(2)} vol=${audio.volume.toFixed(2)}`));
+    });
+    audio.addEventListener("error", ()=>{
+      const err = audio.error;
+      log("ERROR code=" + (err?err.code:"?"));
+    });
+
+    setSource("night");
+
+    soundSel.addEventListener("change", async ()=>{
+      const key = soundSel.value;
+      setSource(key);
+
+      // 若正在播：盡量無縫換（不同手機行為不一樣，這樣最穩）
+      if(playing){
+        try{
+          const t = audio.currentTime;
+          await audio.play();
+          // 換 src 會重置 currentTime，這裡不強行跳時間，避免某些瀏覽器出錯
+          fadeIn();
+          toast("已切換音場");
+        }catch(e){
+          toast("切換音場需要再點一次 🎧");
+          playing = false;
+          audioBtn.textContent = "🎧 開始";
+        }
+      }
+    });
+
+    audioBtn.addEventListener("click", async ()=>{
+      if(!playing){
+        try{
+          // 解鎖策略：先靜音播放一次再取消靜音（更穩）
+          audio.muted = true;
+          await audio.play();
+          audio.muted = false;
+
+          playing = true;
+          audioBtn.textContent = "🫧 停";
+          fadeIn();
+          toast("自然音已開始");
+          log("play OK (unlocked)");
+        }catch(e){
+          toast("播放被擋，請再點一次");
+          log("play FAIL: " + (e?.message || String(e)));
+        }
+      }else{
+        playing = false;
+        audioBtn.textContent = "🎧 開始";
+        fadeOutPause();
+        toast("已停止");
+      }
+    });
+
+    toggleDebugBtn.addEventListener("click", ()=>{
+      debugOn = !debugOn;
+      $("#dbg").style.display = debugOn ? "block" : "none";
+      if(debugOn){
+        dbg.textContent = "debug: on";
+        log("ua=" + navigator.userAgent);
+        log("src=" + audio.src);
+      }else{
+        toast("Debug 已關閉");
+      }
+    });
+
+    $("#copyUrlBtn").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(location.href);
+        toast("已複製網址");
+      }catch{
+        // 備援
+        const ta = document.createElement("textarea");
+        ta.value = location.href;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("已複製網址");
+      }
+    });
+
+    /***********************
+     * 清理（認知卸載 + 摧毀動畫）
+     ***********************/
+    const dump = $("#dump");
+    const shredText = $("#shredText");
+    const shredOverlay = $("#shredOverlay");
+    const shredStage = $("#shredStage");
+
+    $("#pasteBtn").addEventListener("click", async ()=>{
+      try{
+        const txt = await navigator.clipboard.readText();
+        dump.value = txt || dump.value;
+        toast("已貼上");
+      }catch{
+        toast("無法貼上（請長按輸入框貼上）");
+      }
+    });
+
+    $("#copyBtn").addEventListener("click", async ()=>{
+      const txt = dump.value.trim();
+      if(!txt){ toast("目前沒有內容"); return; }
+      try{
+        await navigator.clipboard.writeText(txt);
+        toast("已複製");
+      }catch{
+        const ta = document.createElement("textarea");
+        ta.value = txt;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("已複製");
+      }
+    });
+
+    $("#clearShredBtn").addEventListener("click", ()=>{
+      shredText.textContent = "（摧毀前會先把文字投影到這裡，讓你看見「已經放下」）";
+      toast("已清空區域");
+    });
+
+    function runShredAnimation(){
+      shredOverlay.innerHTML = "";
+      shredOverlay.classList.add("active");
+
+      // 生成幾條掃描線
+      const lines = 14;
+      for(let i=0;i<lines;i++){
+        const l = document.createElement("div");
+        l.className = "shredLine";
+        l.style.left = (-30 + i*(100/lines)) + "%";
+        l.style.animationDelay = (i*40) + "ms";
+        shredOverlay.appendChild(l);
+      }
+
+      // 文字淡出
+      shredText.classList.add("fadeOut");
+
+      setTimeout(()=>{
+        shredOverlay.classList.remove("active");
+        shredText.classList.remove("fadeOut");
+        shredText.textContent = "（已送走。你可以先重置呼吸，或去寫下三個微光。）";
+      }, 1200);
+    }
+
+    $("#destroyBtn").addEventListener("click", ()=>{
+      const txt = dump.value.trim();
+      if(!txt){ toast("先寫下來，再摧毀"); return; }
+
+      // 投影到摧毀區（讓你看見「放下」）
+      shredText.textContent = txt;
+
+      // 清空輸入（象徵卸載）
+      dump.value = "";
+
+      // 跑動畫
+      runShredAnimation();
+      toast("已摧毀（卸載完成）");
+    });
+
+    /***********************
+     * 重置（呼吸 4-4-8 / 4-7-8）
+     ***********************/
+    const patternSel = $("#patternSel");
+    const breathBtn = $("#breathBtn");
+    const breathStopBtn = $("#breathStopBtn");
+    const circle = $("#circle");
+    const phase = $("#phase");
+    const timer = $("#timer");
+
+    const PATTERNS = {
+      "4-4-8": {inhale:4, hold:4, exhale:8},
+      "4-7-8": {inhale:4, hold:7, exhale:8}
+    };
+
+    let breathRunning = false;
+    let breathTimer = null;
+    let stepQueue = [];
+    let stepIdx = 0;
+    let stepRemain = 0;
+
+    function setCircle(scale){
+      circle.style.transform = `scale(${scale})`;
+    }
+
+    function buildQueue(p){
+      return [
+        {name:"吸氣", sec:p.inhale, scale:1.06},
+        {name:"停住", sec:p.hold,   scale:1.06},
+        {name:"吐氣", sec:p.exhale, scale:0.88},
+      ];
+    }
+
+    function updateBreathUI(){
+      const pat = PATTERNS[patternSel.value];
+      timer.textContent = `pattern: ${patternSel.value}｜吸${pat.inhale} 停${pat.hold} 吐${pat.exhale}`;
+    }
+
+    patternSel.addEventListener("change", ()=>{
+      updateBreathUI();
+      if(breathRunning){
+        // 不中斷，下一輪套用新節奏
+        toast("下一輪套用新節奏");
+      }
+    });
+
+    updateBreathUI();
+
+    function stopBreath(){
+      breathRunning = false;
+      clearInterval(breathTimer);
+      breathTimer = null;
+      phase.textContent = "已停止。你已經慢下來了。";
+      setCircle(0.92);
+      toast("呼吸已停止");
+    }
+
+    function startBreath(){
+      if(breathRunning) return;
+      breathRunning = true;
+
+      const pat = PATTERNS[patternSel.value];
+      stepQueue = buildQueue(pat);
+      stepIdx = 0;
+      stepRemain = stepQueue[0].sec;
+
+      // 進入第一步
+      phase.textContent = `${stepQueue[0].name}…`;
+      setCircle(stepQueue[0].scale);
+
+      breathTimer = setInterval(()=>{
+        if(!breathRunning) return;
+
+        stepRemain -= 1;
+        if(stepRemain <= 0){
+          // 下一步
+          stepIdx = (stepIdx + 1) % stepQueue.length;
+
+          // 每輪開始時，更新 pattern（讓切換可生效）
+          if(stepIdx === 0){
+            const newPat = PATTERNS[patternSel.value];
+            stepQueue = buildQueue(newPat);
+          }
+
+          const step = stepQueue[stepIdx];
+          stepRemain = step.sec;
+          phase.textContent = `${step.name}…`;
+          setCircle(step.scale);
+        }
+
+        // 顯示剩餘秒
+        const step = stepQueue[stepIdx];
+        timer.textContent = `pattern: ${patternSel.value}｜${step.name} ${String(stepRemain).padStart(2,"0")}s`;
+      }, 1000);
+
+      toast("開始呼吸");
+    }
+
+    breathBtn.addEventListener("click", startBreath);
+    breathStopBtn.addEventListener("click", stopBreath);
+
+    /***********************
+     * 重置語錄（簡短、穩、溫和）
+     ***********************/
+    const QUOTES = [
+      "我不是來逼自己立刻變好，我只是先把身體帶回安全。",
+      "先慢下來。等身體安全了，再決定要不要回應。",
+      "我不需要贏，我只需要穩住自己的位置。",
+      "當下先把呼吸放回來，前額葉才回得來。",
+      "我可以不急著解釋。我先讓關係不再失血。",
+      "先把警報關小聲，才聽得到自己真正想要什麼。",
+      "今天先做到「不增加傷害」，就已經很了不起。"
+    ];
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    $("#quoteBtn").addEventListener("click", ()=>{
+      $("#quoteBox").innerHTML = `<div style="line-height:1.75; opacity:.90;">${pick(QUOTES)}</div>`;
+    });
+
+    /***********************
+     * 感恩（localStorage 永久保存）
+     ***********************/
+    const KEY = "angel_grat_v1";
+    const gratInput = $("#gratInput");
+    const gratList = $("#gratList");
+
+    function loadGrat(){
+      try{
+        return JSON.parse(localStorage.getItem(KEY) || "[]");
+      }catch{
+        return [];
+      }
+    }
+    function saveGrat(list){
+      localStorage.setItem(KEY, JSON.stringify(list));
+    }
+
+    function renderGrat(){
+      const list = loadGrat();
+      gratList.innerHTML = "";
+      if(list.length === 0){
+        gratList.innerHTML = `<div class="inner" style="opacity:.72; line-height:1.7">（目前還沒有紀錄。寫下一個微小片刻就好。）</div>`;
+        return;
+      }
+      list.slice().reverse().forEach(item=>{
+        const row = document.createElement("div");
+        row.className = "item";
+        row.innerHTML = `
+          <div class="meta">
+            <div class="txt">${escapeHtml(item.text)}</div>
+            <div class="time">${item.time}</div>
+          </div>
+          <button class="btn small danger" data-del="${item.id}" type="button">刪除</button>
+        `;
+        gratList.appendChild(row);
+      });
+    }
+
+    function escapeHtml(s){
+      return (s||"").replace(/[&<>"']/g, m=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
+
+    $("#addGratBtn").addEventListener("click", ()=>{
+      const txt = gratInput.value.trim();
+      if(!txt){ toast("先寫一句微光"); return; }
+      const list = loadGrat();
+      list.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()), text: txt, time: nowISO() });
+      saveGrat(list);
+      gratInput.value = "";
+      renderGrat();
+      toast("已加入");
+    });
+
+    gratInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter"){
+        e.preventDefault();
+        $("#addGratBtn").click();
+      }
+    });
+
+    gratList.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-del]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-del");
+      const list = loadGrat().filter(x=>x.id !== id);
+      saveGrat(list);
+      renderGrat();
+      toast("已刪除");
+    });
+
+    $("#wipeBtn").addEventListener("click", ()=>{
+      if(!confirm("要清空全部感恩紀錄嗎？（會永久刪除）")) return;
+      localStorage.removeItem(KEY);
+      renderGrat();
+      toast("已清空");
+    });
+
+    $("#exportBtn").addEventListener("click", async ()=>{
+      const list = loadGrat();
+      if(list.length === 0){ toast("沒有可匯出的內容"); return; }
+      const lines = list.map(x=>`- ${x.time}｜${x.text}`);
+      const out = `Angel｜感恩紀錄\n\n${lines.join("\n")}\n`;
+      try{
+        await navigator.clipboard.writeText(out);
+        toast("已匯出到剪貼簿");
+      }catch{
+        const ta = document.createElement("textarea");
+        ta.value = out;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("已匯出到剪貼簿");
+      }
+    });
+
+    renderGrat();
+
+    /***********************
+     * Service Worker 註冊
+     ***********************/
+    if("serviceWorker" in navigator){
+      window.addEventListener("load", ()=>{
+        navigator.serviceWorker.register("./sw.js")
+          .then(()=>log("sw registered"))
+          .catch((e)=>log("sw FAIL: " + (e?.message || e)));
+      });
+    }
+  </script>
+</body>
+                                                    </html>
