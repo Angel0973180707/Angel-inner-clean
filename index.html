@@ -135,6 +135,11 @@
       cursor:pointer;
       transition: transform .08s ease, background .18s ease, border-color .18s ease;
       user-select:none;
+      text-decoration:none; /* 讓 <a class="btn"> 外觀一致 */
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
     }
     .btn:hover{ background: var(--btn2); }
     .btn:active{ transform: scale(.98); }
@@ -442,19 +447,6 @@
       transform: translateX(-50%) translateY(-6px);
     }
 
-    .debug{
-      display:none;
-      margin-top: 10px;
-      font-family: var(--mono);
-      font-size: 12px;
-      opacity:.8;
-      background: rgba(0,0,0,.20);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius: 16px;
-      padding: 10px;
-      white-space: pre-wrap;
-    }
-
     .footerNote{
       margin-top: 14px;
       opacity:.60;
@@ -642,12 +634,13 @@
             </div>
           </div>
 
+          <!-- ✅ 拿掉 Debug，換成回饋表單 -->
           <div class="row">
             <button class="btn" id="copyUrlBtn" type="button">🔗 複製本頁網址</button>
-            <button class="btn" id="toggleDebugBtn" type="button">🧪 Debug</button>
+            <a class="btn" href="https://forms.gle/EhjdXSg21tMY6aj89" target="_blank" rel="noopener">
+              🌿 告訴我你的使用感
+            </a>
           </div>
-
-          <div class="debug" id="dbg">debug: ready</div>
         </div>
       </div>
     </section>
@@ -752,9 +745,6 @@
     const audio = $("#bgAudio");
     const audioBtn = $("#audioBtn");
     const soundSel = $("#soundSel");
-    const dbg = $("#dbg");
-    const toggleDebugBtn = $("#toggleDebugBtn");
-    let debugOn = false;
 
     // ✅ v13：固定走 audio/ 資料夾
     const SOURCES = {
@@ -766,10 +756,8 @@
     let playing = false;
     let fadeTimer = null;
 
-    function log(line){
-      if(!debugOn) return;
-      dbg.textContent = (dbg.textContent + "\n" + line).slice(-2500);
-    }
+    // ✅ 移除 Debug：保留呼叫點但不做事
+    function log(_line){ /* debug removed */ }
 
     function setSource(key){
       audio.src = SOURCES[key];
@@ -856,18 +844,6 @@
         audioBtn.textContent = "🎧 開始";
         fadeOutPause();
         toast("已停止");
-      }
-    });
-
-    toggleDebugBtn.addEventListener("click", ()=>{
-      debugOn = !debugOn;
-      $("#dbg").style.display = debugOn ? "block" : "none";
-      if(debugOn){
-        dbg.textContent = "debug: on";
-        log("ua=" + navigator.userAgent);
-        log("src=" + audio.src);
-      }else{
-        toast("Debug 已關閉");
       }
     });
 
@@ -1182,4 +1158,4 @@
     }
   </script>
 </body>
-              </html>
+</html>
