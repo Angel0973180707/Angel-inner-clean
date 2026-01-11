@@ -1,15 +1,19 @@
 {
-  "name": "Angel",
+  "name": "Angel｜心靈淨化",
   "short_name": "Angel",
+  "description": "清理 × 重置 × 感恩｜極簡、無干擾、無登入",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#060c21",
-  "theme_color": "#0a192f",
+  "theme_color": "#060c21",
+  "lang": "zh-Hant",
   "icons": [
     {
-      "src": "./icon-512.png",
+      "src": "./icon.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
