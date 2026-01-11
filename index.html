@@ -7,8 +7,8 @@
   <title>Angel｜心靈淨化</title>
 
   <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" href="./icon-192.png" />
-  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="icon" href="./icon.png" />
+  <link rel="apple-touch-icon" href="./icon.png" />
 
   <style>
     :root{
@@ -45,7 +45,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* 星空背景：Canvas 疊在最底 */
     #stars{
       position:fixed;
       inset:0;
@@ -119,10 +118,7 @@
       backdrop-filter: blur(10px);
     }
 
-    select, button, input, textarea{
-      font:inherit;
-      color:var(--text);
-    }
+    select, button, input, textarea{ font:inherit; color:var(--text); }
     select{
       background: transparent;
       border:0;
@@ -151,9 +147,7 @@
       background: var(--danger);
       border-color: rgba(255,120,120,.24);
     }
-    .btn.ghost{
-      background: transparent;
-    }
+    .btn.ghost{ background: transparent; }
     .btn.small{
       padding:8px 12px;
       font-size: 13px;
@@ -261,7 +255,6 @@
       margin-top: 10px;
     }
 
-    /* 清理摧毀動畫 */
     .shredStage{
       position:relative;
       overflow:hidden;
@@ -301,14 +294,11 @@
       15%{ opacity:1; }
       100%{ transform: translateX(160%) rotate(16deg); opacity:0; }
     }
-    .fadeOut{
-      animation: fadeOut 900ms ease forwards;
-    }
+    .fadeOut{ animation: fadeOut 900ms ease forwards; }
     @keyframes fadeOut{
       to{ opacity:0; transform: translateY(6px); filter: blur(1px); }
     }
 
-    /* 呼吸圓圈 */
     .breathBox{
       display:flex;
       gap:12px;
@@ -344,9 +334,7 @@
       transform: rotate(0deg);
       animation: shimmer 10s linear infinite;
     }
-    @keyframes shimmer{
-      to{ transform: rotate(360deg); }
-    }
+    @keyframes shimmer{ to{ transform: rotate(360deg); } }
     .phase{
       margin-top: 10px;
       text-align:center;
@@ -362,7 +350,6 @@
       font-size: 13px;
     }
 
-    /* 感恩清單 */
     .gratForm{
       display:flex;
       gap:10px;
@@ -413,7 +400,6 @@
       opacity:.65;
     }
 
-    /* 說明頁 */
     .doc p{ margin: 8px 0; line-height: 1.75; opacity:.82; }
     .doc .k{ opacity:.92; }
     .doc .chip{
@@ -429,7 +415,6 @@
       opacity:.88;
     }
 
-    /* Toast */
     .toast{
       position:fixed;
       left:50%;
@@ -457,7 +442,6 @@
       transform: translateX(-50%) translateY(-6px);
     }
 
-    /* 小型 debug（預設關） */
     .debug{
       display:none;
       margin-top: 10px;
@@ -671,6 +655,7 @@
 
   <div class="toast" id="toast">提示</div>
 
+  <!-- ✅ loop：自動循環播放 -->
   <audio id="bgAudio" preload="auto" playsinline loop></audio>
 
   <script>
@@ -762,7 +747,7 @@
     resize(); tick();
 
     /***********************
-     * 音訊：本地檔 + 手動解鎖 + 溫和淡入淡出
+     * 音訊：本地檔 + 手動解鎖 + 溫和淡入淡出 + loop 循環
      ***********************/
     const audio = $("#bgAudio");
     const audioBtn = $("#audioBtn");
@@ -771,6 +756,7 @@
     const toggleDebugBtn = $("#toggleDebugBtn");
     let debugOn = false;
 
+    // ✅ v13：固定走 audio/ 資料夾
     const SOURCES = {
       night: "./audio/night.mp3",
       ocean: "./audio/ocean.mp3",
@@ -821,7 +807,6 @@
       }, 120);
     }
 
-    // 事件：只在 Debug 開啟時紀錄
     ["loadstart","loadedmetadata","canplay","playing","pause","stalled","waiting","ended"].forEach(ev=>{
       audio.addEventListener(ev, ()=> log(`event:${ev} t=${audio.currentTime.toFixed(2)} vol=${audio.volume.toFixed(2)}`));
     });
@@ -836,12 +821,9 @@
       const key = soundSel.value;
       setSource(key);
 
-      // 若正在播：盡量無縫換（不同手機行為不一樣，這樣最穩）
       if(playing){
         try{
-          const t = audio.currentTime;
           await audio.play();
-          // 換 src 會重置 currentTime，這裡不強行跳時間，避免某些瀏覽器出錯
           fadeIn();
           toast("已切換音場");
         }catch(e){
@@ -855,7 +837,7 @@
     audioBtn.addEventListener("click", async ()=>{
       if(!playing){
         try{
-          // 解鎖策略：先靜音播放一次再取消靜音（更穩）
+          // ✅ 手機解鎖：先靜音播放一次再取消靜音（較穩）
           audio.muted = true;
           await audio.play();
           audio.muted = false;
@@ -863,7 +845,7 @@
           playing = true;
           audioBtn.textContent = "🫧 停";
           fadeIn();
-          toast("自然音已開始");
+          toast("自然音已開始（循環播放）");
           log("play OK (unlocked)");
         }catch(e){
           toast("播放被擋，請再點一次");
@@ -894,7 +876,6 @@
         await navigator.clipboard.writeText(location.href);
         toast("已複製網址");
       }catch{
-        // 備援
         const ta = document.createElement("textarea");
         ta.value = location.href;
         document.body.appendChild(ta);
@@ -911,7 +892,6 @@
     const dump = $("#dump");
     const shredText = $("#shredText");
     const shredOverlay = $("#shredOverlay");
-    const shredStage = $("#shredStage");
 
     $("#pasteBtn").addEventListener("click", async ()=>{
       try{
@@ -949,7 +929,6 @@
       shredOverlay.innerHTML = "";
       shredOverlay.classList.add("active");
 
-      // 生成幾條掃描線
       const lines = 14;
       for(let i=0;i<lines;i++){
         const l = document.createElement("div");
@@ -959,7 +938,6 @@
         shredOverlay.appendChild(l);
       }
 
-      // 文字淡出
       shredText.classList.add("fadeOut");
 
       setTimeout(()=>{
@@ -973,13 +951,8 @@
       const txt = dump.value.trim();
       if(!txt){ toast("先寫下來，再摧毀"); return; }
 
-      // 投影到摧毀區（讓你看見「放下」）
       shredText.textContent = txt;
-
-      // 清空輸入（象徵卸載）
       dump.value = "";
-
-      // 跑動畫
       runShredAnimation();
       toast("已摧毀（卸載完成）");
     });
@@ -1024,10 +997,7 @@
 
     patternSel.addEventListener("change", ()=>{
       updateBreathUI();
-      if(breathRunning){
-        // 不中斷，下一輪套用新節奏
-        toast("下一輪套用新節奏");
-      }
+      if(breathRunning){ toast("下一輪套用新節奏"); }
     });
 
     updateBreathUI();
@@ -1050,7 +1020,6 @@
       stepIdx = 0;
       stepRemain = stepQueue[0].sec;
 
-      // 進入第一步
       phase.textContent = `${stepQueue[0].name}…`;
       setCircle(stepQueue[0].scale);
 
@@ -1059,10 +1028,8 @@
 
         stepRemain -= 1;
         if(stepRemain <= 0){
-          // 下一步
           stepIdx = (stepIdx + 1) % stepQueue.length;
 
-          // 每輪開始時，更新 pattern（讓切換可生效）
           if(stepIdx === 0){
             const newPat = PATTERNS[patternSel.value];
             stepQueue = buildQueue(newPat);
@@ -1074,7 +1041,6 @@
           setCircle(step.scale);
         }
 
-        // 顯示剩餘秒
         const step = stepQueue[stepIdx];
         timer.textContent = `pattern: ${patternSel.value}｜${step.name} ${String(stepRemain).padStart(2,"0")}s`;
       }, 1000);
@@ -1086,7 +1052,7 @@
     breathStopBtn.addEventListener("click", stopBreath);
 
     /***********************
-     * 重置語錄（簡短、穩、溫和）
+     * 重置語錄
      ***********************/
     const QUOTES = [
       "我不是來逼自己立刻變好，我只是先把身體帶回安全。",
@@ -1110,14 +1076,17 @@
     const gratList = $("#gratList");
 
     function loadGrat(){
-      try{
-        return JSON.parse(localStorage.getItem(KEY) || "[]");
-      }catch{
-        return [];
-      }
+      try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }
+      catch{ return []; }
     }
     function saveGrat(list){
       localStorage.setItem(KEY, JSON.stringify(list));
+    }
+
+    function escapeHtml(s){
+      return (s||"").replace(/[&<>"']/g, m=>({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
     }
 
     function renderGrat(){
@@ -1141,17 +1110,15 @@
       });
     }
 
-    function escapeHtml(s){
-      return (s||"").replace(/[&<>"']/g, m=>({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[m]));
-    }
-
     $("#addGratBtn").addEventListener("click", ()=>{
       const txt = gratInput.value.trim();
       if(!txt){ toast("先寫一句微光"); return; }
       const list = loadGrat();
-      list.push({ id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()), text: txt, time: nowISO() });
+      list.push({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()),
+        text: txt,
+        time: nowISO()
+      });
       saveGrat(list);
       gratInput.value = "";
       renderGrat();
@@ -1204,7 +1171,7 @@
     renderGrat();
 
     /***********************
-     * Service Worker 註冊
+     * Service Worker 註冊（v13）
      ***********************/
     if("serviceWorker" in navigator){
       window.addEventListener("load", ()=>{
@@ -1215,4 +1182,4 @@
     }
   </script>
 </body>
-                                                    </html>
+              </html>
