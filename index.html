@@ -81,12 +81,7 @@
       gap:10px;
       padding:14px 6px 6px;
     }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:0;
-    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:0;}
     .logo{
       width:40px;height:40px;border-radius:14px;
       background: linear-gradient(135deg, rgba(110,168,255,.35), rgba(140,240,255,.18));
@@ -96,17 +91,8 @@
       user-select:none;
     }
     .logo span{font-size:18px}
-    .title{
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-    }
-    .title h1{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
+    .title{display:flex;flex-direction:column;min-width:0;}
+    .title h1{margin:0;font-size:16px;letter-spacing:.12em;text-transform:uppercase;}
     .title p{
       margin:2px 0 0;
       font-size:12.5px;
@@ -116,11 +102,8 @@
       text-overflow:ellipsis;
     }
 
-    .top-actions{
-      display:flex; gap:10px; flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:flex-end;}
+
     .btn{
       border:1px solid rgba(255,255,255,.18);
       background:rgba(255,255,255,.06);
@@ -136,6 +119,7 @@
       transition: transform .12s ease, background .12s ease;
       user-select:none;
       -webkit-tap-highlight-color:transparent;
+      white-space:nowrap;
     }
     .btn:active{transform:scale(.98)}
     .btn.primary{
@@ -151,6 +135,17 @@
       border-radius:999px;
     }
 
+    .select{
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:16px;
+      font-size:13px;
+      outline:none;
+      -webkit-tap-highlight-color:transparent;
+    }
+
     .grid{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
@@ -160,7 +155,7 @@
     @media (max-width: 860px){
       .grid{grid-template-columns:1fr}
       header{flex-direction:column; align-items:stretch}
-      .top-actions{justify-content:space-between}
+      .top-actions{justify-content:flex-start}
     }
 
     .card{
@@ -171,33 +166,12 @@
       padding:16px;
       backdrop-filter: blur(10px);
     }
-    .card h2{
-      margin:0 0 8px;
-      font-size:15px;
-      letter-spacing:.06em;
-    }
-    .sub{
-      margin:0 0 14px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
-    .micro{
-      margin:8px 0 0;
-      color:rgba(255,255,255,.58);
-      font-size:12px;
-      line-height:1.5;
-    }
-    .hr{
-      height:1px;
-      background:var(--line);
-      margin:14px 0;
-    }
+    .card h2{margin:0 0 8px;font-size:15px;letter-spacing:.06em;}
+    .sub{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.6;}
+    .micro{margin:8px 0 0;color:rgba(255,255,255,.58);font-size:12px;line-height:1.5;}
+    .hr{height:1px;background:var(--line);margin:14px 0;}
 
-    .tabs{
-      display:flex; gap:8px; flex-wrap:wrap;
-      margin:10px 0 12px;
-    }
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 12px;}
     .tab{
       padding:10px 12px;
       border-radius:999px;
@@ -229,15 +203,8 @@
       outline:none;
     }
     textarea::placeholder{color:rgba(255,255,255,.45)}
-    .row{
-      display:flex; gap:10px; flex-wrap:wrap;
-      align-items:center;
-    }
-    .hint{
-      color:var(--muted);
-      font-size:12.5px;
-      line-height:1.5;
-    }
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .hint{color:var(--muted);font-size:12.5px;line-height:1.5;}
     .shake{animation: shake .22s ease-in-out 0s 2;}
     @keyframes shake{
       0%{transform:translateX(0)}
@@ -269,13 +236,7 @@
     }
 
     /* 呼吸 */
-    .breath-area{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:12px;
-      padding:6px 0 2px;
-    }
+    .breath-area{display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 0 2px;}
     .circle-wrap{width:250px;height:250px;border-radius:999px;display:grid;place-items:center;position:relative;}
     .circle{
       width:210px;height:210px;border-radius:999px;
@@ -297,15 +258,6 @@
       100%{transform:scale(.88)}
     }
     .controls{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:2px;}
-    .select{
-      border:1px solid rgba(255,255,255,.16);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:16px;
-      font-size:13px;
-      outline:none;
-    }
 
     /* 感恩 */
     .input{
@@ -396,30 +348,10 @@
       box-shadow: 0 26px 90px rgba(0,0,0,.55);
       padding:16px;
     }
-    .sheet h3{
-      margin:0 0 10px;
-      font-size:15px;
-      letter-spacing:.06em;
-    }
-    .sheet p{
-      margin:0 0 10px;
-      color:rgba(255,255,255,.82);
-      font-size:13.5px;
-      line-height:1.75;
-    }
-    .sheet .muted{
-      margin-top:8px;
-      color:rgba(255,255,255,.62);
-      font-size:12.5px;
-      line-height:1.6;
-    }
-    .sheet .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      margin-top:12px;
-    }
+    .sheet h3{margin:0 0 10px;font-size:15px;letter-spacing:.06em;}
+    .sheet p{margin:0 0 10px;color:rgba(255,255,255,.82);font-size:13.5px;line-height:1.75;}
+    .sheet .muted{margin-top:8px;color:rgba(255,255,255,.62);font-size:12.5px;line-height:1.6;}
+    .sheet .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px;}
     .chip{
       display:inline-flex;
       gap:8px;
@@ -472,9 +404,18 @@
       </div>
 
       <div class="top-actions">
-        <button class="btn badge" id="audioBtn" type="button" title="手動解鎖音訊">
-          🎵 <span id="audioLabel">解鎖音訊</span>
+        <!-- ✅ 自然音選單 -->
+        <select class="select" id="soundSel" aria-label="自然音選擇" title="自然音">
+          <option value="night">🌙 夜裡的風</option>
+          <option value="ocean">🌊 海浪</option>
+          <option value="rain">🌧️ 細雨</option>
+        </select>
+
+        <!-- ✅ 解鎖/播放/停止（溫和淡入淡出） -->
+        <button class="btn badge" id="audioBtn" type="button" title="點一下才允許播放（手機限制）">
+          🎧 <span id="audioLabel">自然音</span>
         </button>
+
         <button class="btn ghost" id="installBtn" type="button" style="display:none">
           ➕ 安裝到桌面
         </button>
@@ -609,10 +550,11 @@
         </div>
 
         <div class="small-card" style="margin-top:12px">
-          <h3>音訊提示</h3>
+          <h3>自然音提示</h3>
           <ul>
-            <li>手機限制自動播放，請先按上方 <b>🎵 解鎖音訊</b>。</li>
-            <li>若播放失敗，程式會先靜音播放再解除靜音（提高成功率）。</li>
+            <li>手機限制自動播放，請先按上方 <b>🎧</b>。</li>
+            <li>音量會「慢慢淡入」，不會突然出聲。</li>
+            <li>可切換「夜風 / 海浪 / 細雨」。</li>
           </ul>
         </div>
       </aside>
@@ -621,7 +563,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <audio id="bgAudio" preload="auto" playsinline loop></audio>
+  <!-- ✅ 自然音播放器 -->
+  <audio id="bgAudio" preload="auto" playsinline loop crossorigin="anonymous"></audio>
 
   <script>
     const $ = (sel) => document.querySelector(sel);
@@ -860,53 +803,140 @@
     gratInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); addOne(); }});
     newGratQuote.addEventListener('click', ()=>{ setQuote('gratitude'); showToast("感恩語錄已更新。"); });
 
-    // 音訊（你可以換成自己的 CORS 直連 mp3）
+    // ✅ 自然音：夜風 / 海浪 / 細雨（緩慢淡入淡出 + 手動解鎖）
     const audioBtn = $('#audioBtn');
     const audioLabel = $('#audioLabel');
+    const soundSel = $('#soundSel');
     const bgAudio = $('#bgAudio');
 
-    const AUDIO_URL = "https://cdn.pixabay.com/download/audio/2022/03/15/audio_1b0b54d3d3.mp3?filename=meditation-11280.mp3";
+    const SOURCES = {
+      night: "https://cdn.pixabay.com/download/audio/2022/02/23/audio_2f3f9b0d55.mp3?filename=night-ambience-110997.mp3",
+      ocean: "https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c6e6f9.mp3?filename=ocean-waves-ambience-6763.mp3",
+      rain:  "https://cdn.pixabay.com/download/audio/2021/09/06/audio_0f3c2e79f1.mp3?filename=rain-ambient-6890.mp3"
+    };
 
-    bgAudio.src = AUDIO_URL;
     bgAudio.loop = true;
     bgAudio.setAttribute('playsinline','');
     bgAudio.playsInline = true;
 
     let audioUnlocked = false;
+    let audioPlaying = false;
+    let fadeTimer = null;
 
-    async function tryPlayWithMutedTrick(){
+    function labelFor(key){
+      if(key === "ocean") return "海浪";
+      if(key === "rain") return "細雨";
+      return "夜風";
+    }
+    function setSource(key){
+      bgAudio.src = SOURCES[key];
+      bgAudio.load();
+      audioLabel.textContent = labelFor(key) + (audioPlaying ? "（陪你）" : "");
+    }
+
+    function clearFade(){
+      if(fadeTimer){ clearInterval(fadeTimer); fadeTimer = null; }
+    }
+    function fadeIn(target = 0.14, duration = 4500){
+      clearFade();
+      bgAudio.volume = 0;
+      const steps = Math.max(10, Math.floor(duration / 120));
+      const step = target / steps;
+      fadeTimer = setInterval(() => {
+        if(bgAudio.volume < target){
+          bgAudio.volume = Math.min(target, bgAudio.volume + step);
+        }else{
+          clearFade();
+        }
+      }, 120);
+    }
+    function fadeOutAndPause(duration = 1600){
+      clearFade();
+      const start = bgAudio.volume || 0.12;
+      const steps = Math.max(8, Math.floor(duration / 120));
+      const step = start / steps;
+      fadeTimer = setInterval(() => {
+        if(bgAudio.volume > 0.001){
+          bgAudio.volume = Math.max(0, bgAudio.volume - step);
+        }else{
+          clearFade();
+          bgAudio.pause();
+          bgAudio.currentTime = 0;
+          audioPlaying = false;
+          audioLabel.textContent = labelFor(soundSel.value);
+        }
+      }, 120);
+    }
+
+    async function unlockPlay(){
       try{
-        bgAudio.muted = false;
+        bgAudio.muted = true;
         await bgAudio.play();
+        bgAudio.muted = false;
+        audioUnlocked = true;
         return true;
       }catch{
-        try{
-          bgAudio.muted = true;
-          await bgAudio.play();
-          bgAudio.muted = false;
-          return true;
-        }catch{
-          return false;
-        }
+        return false;
       }
     }
 
-    audioBtn.addEventListener('click', async ()=>{
-      const ok = await tryPlayWithMutedTrick();
-      if(ok){
-        audioUnlocked = true;
-        audioLabel.textContent = "音訊已啟動";
-        showToast("音訊已啟動。");
+    // 初始音源
+    setSource("night");
+
+    soundSel.addEventListener('change', async ()=>{
+      const key = soundSel.value;
+
+      // 若正在播放：淡出 → 換源 → 再淡入（溫和）
+      if(audioPlaying){
+        fadeOutAndPause(900);
+        setTimeout(async ()=>{
+          setSource(key);
+          const ok = await unlockPlay();
+          if(ok){
+            audioPlaying = true;
+            audioLabel.textContent = labelFor(key) + "（陪你）";
+            fadeIn();
+          }else{
+            audioPlaying = false;
+            audioUnlocked = false;
+            audioLabel.textContent = labelFor(key);
+            showToast("請再點 🎧 一次，讓瀏覽器允許播放。");
+          }
+        }, 980);
       }else{
-        audioUnlocked = false;
-        audioLabel.textContent = "解鎖音訊";
-        showToast("播放失敗：請確認音源連結可用，並用 Safari/Chrome。");
+        setSource(key);
+      }
+    });
+
+    audioBtn.addEventListener('click', async ()=>{
+      const key = soundSel.value;
+
+      if(!audioPlaying){
+        setSource(key);
+        const ok = await unlockPlay();
+        if(ok){
+          audioPlaying = true;
+          audioLabel.textContent = labelFor(key) + "（陪你）";
+          fadeIn();
+          showToast("自然音已啟動（會慢慢淡入）。");
+        }else{
+          audioUnlocked = false;
+          showToast("播放被擋：請再點一次（用 Safari/Chrome，別用內建瀏覽器）。");
+        }
+      }else{
+        fadeOutAndPause();
+        showToast("已停下來。");
       }
     });
 
     document.addEventListener('visibilitychange', ()=>{
       if(document.hidden) return;
-      if(audioUnlocked) tryPlayWithMutedTrick();
+      // 回到前景：若正在播放，嘗試續播（有些手機會暫停）
+      if(audioPlaying){
+        unlockPlay().then(ok=>{
+          if(ok){ /* 續播成功 */ }
+        });
+      }
     });
 
     // SW 註冊
@@ -967,27 +997,20 @@
     overlayClose.addEventListener('click', ()=>{ closeOverlay(); });
     overlayGo.addEventListener('click', ()=>{
       closeOverlay();
-      // gently focus on first input
       try{ $('#cleanText').focus({preventScroll:false}); }catch{}
       showToast("慢慢來。先寫一句就好。");
     });
 
-    // click outside sheet closes (optional gentle)
     firstOverlay.addEventListener('click', (e)=>{
       if(e.target === firstOverlay) closeOverlay();
     });
 
     // initial
     setQuote('general');
-
-    // show overlay only if not seen
     (function(){
       let seen = false;
       try{ seen = localStorage.getItem(FIRST_KEY) === "1"; }catch{}
-      if(!seen){
-        // small delay for nicer load
-        setTimeout(openOverlay, 350);
-      }
+      if(!seen){ setTimeout(openOverlay, 350); }
     })();
   </script>
 </body>
