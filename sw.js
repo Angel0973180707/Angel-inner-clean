@@ -1,5 +1,5 @@
 // sw.js
-const CACHE_NAME = "angel-v10";
+const CACHE_NAME = "angel-v11";
 
 const ASSETS = [
   "./",
