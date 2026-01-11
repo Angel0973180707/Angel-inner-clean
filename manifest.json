@@ -1,1 +1,20 @@
-
+{
+  "name": "Angel 心靈淨化",
+  "short_name": "Angel",
+  "description": "清理｜重置｜感恩 — 無廣告、無干擾、無須登入的極簡心理調節工具",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#060c21",
+  "theme_color": "#060c21",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "zh-Hant",
+  "orientation": "portrait"
+}
